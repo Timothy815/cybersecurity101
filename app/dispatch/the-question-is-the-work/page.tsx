@@ -34,6 +34,7 @@ export default function TheQuestionIsTheWork() {
       meta={[`Dispatch ${String(article.edition).padStart(2, "0")}`, article.readTime, article.subject]}
       sections={sections}
       pdfHref={article.pdfHref}
+      slidesHref={article.slidesHref}
     >
       <p className="article-lede">Imagine being given a machine that can answer almost any question you can think to ask. It can explain why the sky changes color at sunset, help you debug a Python program, compare encryption methods, suggest a stronger thesis statement, and walk you through subnetting as many times as necessary. It does not become impatient when you forget something. It does not sigh when you ask for a simpler explanation. It does not look around the room to see whether anyone else thinks your question is foolish.</p>
       <p>For a student, such a machine can feel almost miraculous. It can also make school feel strangely unnecessary. Why wrestle with a difficult problem when an answer can appear in seconds? Why spend an evening writing something that a machine can produce before the next song finishes playing? Why memorize information that can be retrieved almost instantly?</p>

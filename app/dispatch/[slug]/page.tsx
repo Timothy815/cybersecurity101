@@ -37,6 +37,7 @@ export default async function GeneratedDispatch({ params }: { params: Promise<{ 
       meta={[`Dispatch ${String(article.edition).padStart(2, "0")}`, article.readTime, article.subject]}
       sections={sections}
       pdfHref={article.pdfHref}
+      slidesHref={article.slidesHref}
     >
       <MarkdownArticle markdown={body} />
       {discussion && (

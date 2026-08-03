@@ -11,6 +11,7 @@ export type ArticleRecord = {
   readTime: string;
   href: string;
   pdfHref: string;
+  slidesHref?: string;
   deck: string;
   visible: boolean;
   order: number;

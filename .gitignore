@@ -41,3 +41,6 @@ next-env.d.ts
 /.sites-runtime/
 /outputs/
 /work/
+
+# Local source slide decks (optimized web copies live in public/articles/slides)
+/slides/

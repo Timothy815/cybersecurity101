@@ -58,7 +58,7 @@ export function ArticleArchive() {
               <small>{article.subject}{article.permanent ? " // Permanent" : ""}</small>
               <h2><Link href={article.href}>{article.title}</Link></h2>
               <p>{article.subtitle}</p>
-              <div className="archive-card-actions"><Link href={article.href}>Read article →</Link><Link href={article.pdfHref} download aria-label={`Download ${article.title} PDF`}>PDF ↓</Link></div>
+              <div className="archive-card-actions"><Link href={article.href}>Read article →</Link><Link href={article.pdfHref} download aria-label={`Download ${article.title} PDF`}>PDF ↓</Link>{article.slidesHref && <Link href={article.slidesHref} target="_blank" rel="noreferrer" aria-label={`View ${article.title} slide deck`}>Slides ↗</Link>}</div>
               <b aria-hidden="true">{String(index + 1).padStart(2, "0")}</b>
             </article>
           ))}

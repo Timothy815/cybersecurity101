@@ -100,6 +100,8 @@ function validateArticles(input: unknown) {
     const href = cleanString(item.href, "Article path", 140);
     const pdfHref = cleanString(item.pdfHref, "PDF path", 180);
     if (!href.startsWith("/") || href.includes("..") || !pdfHref.startsWith("/articles/pdfs/") || !pdfHref.endsWith(".pdf") || pdfHref.includes("..")) throw new Error(`A publication path for ${slug} is invalid.`);
+    const slidesHref = typeof item.slidesHref === "string" && item.slidesHref.trim() ? item.slidesHref.trim() : undefined;
+    if (slidesHref && (slidesHref.length > 180 || !slidesHref.startsWith("/articles/slides/") || !slidesHref.endsWith(".pdf") || slidesHref.includes(".."))) throw new Error(`The slide path for ${slug} is invalid.`);
     const permanent = Boolean(item.permanent);
     const visible = permanent ? true : Boolean(item.visible);
     const bodyMarkdown = typeof item.bodyMarkdown === "string" ? item.bodyMarkdown.trim() : undefined;
@@ -121,6 +123,7 @@ function validateArticles(input: unknown) {
       readTime: cleanString(item.readTime, "Read time", 30),
       href,
       pdfHref,
+      ...(slidesHref ? { slidesHref } : {}),
       ...(kind === "Dispatch" ? { edition: Math.max(1, Math.min(999, Number(item.edition) || 1)) } : {}),
       visible,
       ...(permanent ? { permanent: true } : {}),

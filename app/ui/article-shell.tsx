@@ -8,6 +8,7 @@ type ArticleShellProps = {
   meta: string[];
   sections: [string, string][];
   pdfHref: string;
+  slidesHref?: string;
   children: ReactNode;
 };
 
@@ -15,7 +16,7 @@ function Logo() {
   return <span className="logo" aria-hidden="true">CS</span>;
 }
 
-export function ArticleShell({ eyebrow, title, deck, meta, sections, pdfHref, children }: ArticleShellProps) {
+export function ArticleShell({ eyebrow, title, deck, meta, sections, pdfHref, slidesHref, children }: ArticleShellProps) {
   return (
     <main className="dispatch-article-page" id="top">
       <header className="screen-only">
@@ -31,7 +32,10 @@ export function ArticleShell({ eyebrow, title, deck, meta, sections, pdfHref, ch
           <h1>{title}</h1>
           <p className="article-deck">{deck}</p>
           <div className="article-meta">{meta.map(item => <span key={item}>{item}</span>)}</div>
-          <Link className="article-download screen-only" href={pdfHref} download>Download clean PDF ↓</Link>
+          <div className="article-downloads screen-only">
+            <Link className="article-download" href={pdfHref} download>Download clean PDF ↓</Link>
+            {slidesHref && <Link className="article-download" href={slidesHref} target="_blank" rel="noreferrer">View slide deck ↗</Link>}
+          </div>
         </div>
       </section>
 
@@ -40,6 +44,7 @@ export function ArticleShell({ eyebrow, title, deck, meta, sections, pdfHref, ch
           <p>In this article</p>
           <nav>{sections.map(([id, sectionTitle], index) => <a href={`#${id}`} key={id}><span>{String(index + 1).padStart(2, "0")}</span>{sectionTitle}</a>)}</nav>
           <Link className="contents-download" href={pdfHref} download>PDF edition ↓</Link>
+          {slidesHref && <Link className="contents-download" href={slidesHref} target="_blank" rel="noreferrer">Slide deck ↗</Link>}
         </aside>
         <article className="article-body">
           {children}
