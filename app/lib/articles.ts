@@ -14,6 +14,18 @@ export type ArticleRecord = {
 
 export const articles: ArticleRecord[] = [
   {
+    slug: "the-human-side-of-cybersecurity",
+    title: "The Human Side of Cybersecurity",
+    subtitle: "An introduction to social engineering, pretexting, trust, and verification.",
+    published: "2026-08-03",
+    publishedLabel: "August 3, 2026",
+    subject: "Social Engineering",
+    kind: "Dispatch",
+    readTime: "9 min read",
+    href: "/dispatch/the-human-side-of-cybersecurity",
+    pdfHref: "/articles/pdfs/the-human-side-of-cybersecurity.pdf",
+  },
+  {
     slug: "the-machine-that-can-answer-anything",
     title: "The Machine That Can Answer Anything",
     subtitle: "Responsibility, artificial intelligence, and the future cyber defender.",

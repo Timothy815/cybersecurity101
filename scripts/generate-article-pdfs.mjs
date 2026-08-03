@@ -9,6 +9,13 @@ const temporaryDirectory = join(root, ".sites-runtime", "article-pdfs");
 
 const documents = [
   {
+    route: "dispatch/the-human-side-of-cybersecurity",
+    filename: "the-human-side-of-cybersecurity.pdf",
+    title: "The Human Side of Cybersecurity",
+    subtitle: "An Introduction to Social Engineering",
+    date: "August 3, 2026",
+  },
+  {
     route: "dispatch/the-question-is-the-work",
     filename: "the-question-is-the-work.pdf",
     title: "The Question Is the Work",
