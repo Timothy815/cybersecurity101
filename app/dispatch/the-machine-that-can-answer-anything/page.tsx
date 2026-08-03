@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { ArticleShell } from "../../ui/article-shell";
 
 export const metadata: Metadata = {
   title: "The Machine That Can Answer Anything | Cybersecurity Classroom Hub",
@@ -15,46 +15,18 @@ const sections = [
   ["person-behind-tool", "The person behind the tool"],
   ["future-defender", "What kind of defender will you become?"],
   ["questions", "Questions worth arguing about"],
-];
-
-function Logo() {
-  return <span className="logo" aria-hidden="true">CS</span>;
-}
+ ] satisfies [string, string][];
 
 export default function FirstDispatch() {
   return (
-    <main className="dispatch-article-page" id="top">
-      <header>
-        <Link className="brand" href="/">
-          <Logo />
-          <span><strong>CYBER / CLASSROOM</strong><small>Student operations hub</small></span>
-        </Link>
-        <nav aria-label="Article navigation">
-          <Link href="/#dispatch">Dispatch</Link>
-          <Link href="/#resources">Resources</Link>
-          <Link href="/#readings">Readings</Link>
-          <Link href="/#word-wall">Word wall</Link>
-        </nav>
-        <a className="portal" href="https://classroom.google.com/h/tv" target="_blank" rel="noreferrer">Class portal ↗</a>
-      </header>
-
-      <section className="article-hero">
-        <div className="article-hero-inner">
-          <Link className="article-back" href="/#dispatch">← Back to classroom dispatch</Link>
-          <p className="label">Dispatch 01 // August 2026</p>
-          <h1>The Machine That Can <em>Answer Anything</em></h1>
-          <p className="article-deck">Responsibility, Artificial Intelligence, and the Future Cyber Defender</p>
-          <div className="article-meta"><span>Opening dispatch</span><span>14 min read</span><span>Discussion included</span></div>
-        </div>
-      </section>
-
-      <div className="article-layout">
-        <aside className="article-contents" aria-label="Article contents">
-          <p>In this dispatch</p>
-          <nav>{sections.map(([id, title], index) => <a href={`#${id}`} key={id}><span>{String(index + 1).padStart(2, "0")}</span>{title}</a>)}</nav>
-        </aside>
-
-        <article className="article-body">
+    <ArticleShell
+      eyebrow="Dispatch 01 // August 3, 2026"
+      title={<>The Machine That Can <em>Answer Anything</em></>}
+      deck="Responsibility, Artificial Intelligence, and the Future Cyber Defender"
+      meta={["Opening dispatch", "14 min read", "AI & Ethics"]}
+      sections={sections}
+      pdfHref="/articles/pdfs/the-machine-that-can-answer-anything.pdf"
+    >
           <p className="article-lede">Imagine that you are working in a security operations center late at night. A warning flashes across the screen. An employee’s account has downloaded thousands of files at an unusual hour.</p>
           <p>You ask an artificial intelligence system to investigate.</p>
           <p>Within seconds, it produces an answer:</p>
@@ -176,18 +148,6 @@ export default function FirstDispatch() {
             </ol>
           </section>
 
-          <div className="article-end">
-            <span>End // Dispatch 01</span>
-            <Link href="/#dispatch">Return to classroom hub ↑</Link>
-          </div>
-        </article>
-      </div>
-
-      <footer>
-        <Link className="brand" href="/"><Logo/><span><strong>CYBER / CLASSROOM</strong><small>Learn · Defend · Grow</small></span></Link>
-        <p>Built for the students who will defend what comes next.</p>
-        <nav><Link href="/#dispatch">Dispatch</Link><Link href="/#resources">Resources</Link><Link href="/#readings">Readings</Link><Link href="/#word-wall">Word wall</Link></nav>
-      </footer>
-    </main>
+    </ArticleShell>
   );
 }

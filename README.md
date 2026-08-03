@@ -15,6 +15,17 @@ existing Vinext/Cloudflare build remains available through `npm run build`.
 To test the Pages artifact locally, run `npm ci`, then `npm run build:pages`.
 The static site is written to `out/`.
 
+## Publishing Articles
+
+Article metadata lives in `app/lib/articles.ts`. Add the article page under
+`app/articles/` (or `app/dispatch/`) and use `ArticleShell` so every issue gets
+the same navigation, table of contents, print treatment, and PDF link.
+
+After building the static site, run `npm run generate:pdfs` to regenerate the
+clean article PDFs in `public/articles/pdfs/`. This local authoring command
+requires Pandoc and XeLaTeX. Commit the generated PDFs so the GitHub Pages
+workflow can publish them without installing a TeX toolchain.
+
 ## Original Starter Notes
 
 A clean full-stack starter running on
