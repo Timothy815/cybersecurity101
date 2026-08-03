@@ -161,7 +161,13 @@ export default function TheQuestionIsTheWork() {
       <section className="discussion" id="questions">
         <p className="label">Class discussion</p>
         <h2>Questions for Discussion</h2>
-        <p>When does AI assistance become authorship, and does understanding an answer afterward make the work your own? Can a student be academically honest while allowing AI to write part of an assignment, provided the assistance is disclosed? Should a thoughtful question be valued as highly as a correct answer? Does AI make students more independent by giving them private access to help, or more dependent by making struggle easier to avoid? Finally, what question would you ask if you knew with certainty that no one would laugh?</p>
+        <ol>
+          <li>When does AI assistance become authorship, and does understanding an answer afterward make the work your own?</li>
+          <li>Can a student be academically honest while allowing AI to write part of an assignment, provided the assistance is disclosed?</li>
+          <li>Should a thoughtful question be valued as highly as a correct answer?</li>
+          <li>Does AI make students more independent by giving them private access to help, or more dependent by making struggle easier to avoid?</li>
+          <li>Finally, what question would you ask if you knew with certainty that no one would laugh?</li>
+        </ol>
       </section>
     </ArticleShell>
   );
