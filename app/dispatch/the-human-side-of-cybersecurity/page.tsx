@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { ArticleShell } from "../../ui/article-shell";
+import { getArticle } from "../../lib/articles";
+
+const article = getArticle("the-human-side-of-cybersecurity");
 
 export const metadata: Metadata = {
   title: "The Human Side of Cybersecurity | Cybersecurity Classroom Hub",
@@ -18,14 +22,15 @@ const sections = [
 ] satisfies [string, string][];
 
 export default function ThirdDispatch() {
+  if (!article.visible) notFound();
   return (
     <ArticleShell
-      eyebrow="Dispatch 03 // August 15, 2026"
+      eyebrow={`Dispatch ${String(article.edition).padStart(2, "0")} // ${article.publishedLabel}`}
       title={<>The Human Side of <em>Cybersecurity</em></>}
-      deck="An Introduction to Social Engineering"
-      meta={["Dispatch 03", "9 min read", "Social Engineering"]}
+      deck={article.deck}
+      meta={[`Dispatch ${String(article.edition).padStart(2, "0")}`, article.readTime, article.subject]}
       sections={sections}
-      pdfHref="/articles/pdfs/the-human-side-of-cybersecurity.pdf"
+      pdfHref={article.pdfHref}
     >
       <p className="article-lede">When people imagine a cyberattack, they often picture lines of code moving across a dark screen while a hacker searches for a technical weakness. That kind of attack certainly exists, but many successful intrusions begin in a much more ordinary way: with a conversation. An attacker sends an email, makes a phone call, starts a text-message exchange, or walks through a door while appearing to belong there. Instead of breaking through a firewall, the attacker persuades someone to provide access.</p>
       <p>This is the world of social engineering. In <em>Social Engineering: The Science of Human Hacking</em>, cybersecurity researcher Christopher Hadnagy defines social engineering broadly as an act that “influences a person to take an action.” That action may be harmless or helpful, but in a cybersecurity attack, it is usually something that benefits the attacker: opening a file, revealing information, transferring money, changing a password, or allowing someone into a restricted area.</p>

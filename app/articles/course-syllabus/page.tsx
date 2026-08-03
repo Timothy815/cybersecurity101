@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { ArticleShell } from "../../ui/article-shell";
+import { getArticle } from "../../lib/articles";
+
+const article = getArticle("course-syllabus");
 
 export const metadata: Metadata = {
   title: "Cybersecurity Course Syllabus | Cybersecurity Classroom Hub",
@@ -19,12 +22,12 @@ const sections = [
 export default function CourseSyllabus() {
   return (
     <ArticleShell
-      eyebrow="Course document // August 3, 2026"
+      eyebrow={`Course document // ${article.publishedLabel}`}
       title={<>Cybersecurity Course <em>Syllabus</em></>}
-      deck="Course purpose, expectations, procedures, content, and pathways to success."
-      meta={["Course information", "8 min read", "Permanent reference"]}
+      deck={article.deck}
+      meta={[article.subject, article.readTime, "Permanent reference"]}
       sections={sections}
-      pdfHref="/articles/pdfs/cybersecurity-course-syllabus.pdf"
+      pdfHref={article.pdfHref}
     >
       <h2 id="description">Course Description</h2>
       <p className="article-lede">Welcome to Cybersecurity, a hands-on course focused on protecting computer systems, networks, applications, and information.</p>

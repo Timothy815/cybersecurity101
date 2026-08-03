@@ -33,8 +33,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Install PDF toolchain
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y pandoc texlive-xetex texlive-fonts-recommended fonts-dejavu-core
+
       - name: Build static site
         run: npm run build:pages
+        env:
+          NEXT_PUBLIC_CONTROL_API_URL: ${{ vars.CONTROL_API_URL }}
+
+      - name: Generate printable article PDFs
+        run: npm run generate:pdfs
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

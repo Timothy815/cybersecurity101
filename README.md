@@ -17,14 +17,34 @@ The static site is written to `out/`.
 
 ## Publishing Articles
 
-Article metadata lives in `app/lib/articles.ts`. Add the article page under
-`app/articles/` (or `app/dispatch/`) and use `ArticleShell` so every issue gets
-the same navigation, table of contents, print treatment, and PDF link.
+Article settings live in `content/article-settings.json`. The catalog controls
+visibility, publication date, curated order, edition, metadata, and PDF paths.
+Existing hand-composed pages use `ArticleShell`; articles created through the
+control panel store safe Markdown in the catalog and use the generic dispatch
+renderer.
 
 After building the static site, run `npm run generate:pdfs` to regenerate the
-clean article PDFs in `public/articles/pdfs/`. This local authoring command
-requires Pandoc and XeLaTeX. Commit the generated PDFs so the GitHub Pages
-workflow can publish them without installing a TeX toolchain.
+clean article PDFs. The local command requires Pandoc and XeLaTeX. GitHub
+Actions installs that toolchain and regenerates every visible article PDF
+before each Pages deployment.
+
+## Publication Control
+
+The public control shell is available at:
+
+<https://timothy815.github.io/cybersecurity101/control/>
+
+It remains read-only until the separate authorization Worker is configured.
+The Worker performs GitHub OAuth with PKCE, restricts access to GitHub numeric
+user ID `22419708`, stores GitHub credentials only in server-side KV, validates
+catalog writes, and commits approved changes to `main`. See
+`control-worker/README.md` for the one-time GitHub App, KV, Worker, and Actions
+variable setup.
+
+Do not place a GitHub token, GitHub App secret, or AI API key in a `NEXT_PUBLIC`
+variable, the catalog, or browser code. The built-in AI workflow deliberately
+generates a prompt for ChatGPT or Gemini and imports the result as a draft; it
+does not require provider credentials.
 
 ## Original Starter Notes
 
@@ -41,7 +61,8 @@ Drizzle support.
 
 The Sites lifecycle CLI runs the locked dependency install before returning this checkout. Edit the source under `app/`, then checkpoint when a coherent milestone is ready to inspect or share. The remote Sites builder runs `npm run build` against the pushed commit. Do not repeat install or build as a normal pre-checkpoint step.
 
-This starter does not use `wrangler.jsonc`.
+The root site does not use `wrangler.jsonc`; the isolated secure publishing API
+uses `control-worker/wrangler.jsonc`.
 
 `install:ci` is intentionally a single, non-retrying `npm ci`. It refuses a concurrent install for the same project, consumes a matching image-seeded npm cache with `--prefer-offline` while retaining registry fallback for a missing cache object, otherwise downloads and verifies the complete vinext tarball recorded in `package-lock.json`, limits npm to one socket, and terminates a stalled install. `build` applies a short timeout and then validates the Sites artifact. These helpers target Linux and use GNU `timeout`; they are not native macOS scripts.
 

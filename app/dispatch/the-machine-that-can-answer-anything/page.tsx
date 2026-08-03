@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { ArticleShell } from "../../ui/article-shell";
+import { getArticle } from "../../lib/articles";
+
+const article = getArticle("the-machine-that-can-answer-anything");
 
 export const metadata: Metadata = {
   title: "The Machine That Can Answer Anything | Cybersecurity Classroom Hub",
@@ -18,14 +22,15 @@ const sections = [
  ] satisfies [string, string][];
 
 export default function SecondDispatch() {
+  if (!article.visible) notFound();
   return (
     <ArticleShell
-      eyebrow="Dispatch 02 // August 14, 2026"
+      eyebrow={`Dispatch ${String(article.edition).padStart(2, "0")} // ${article.publishedLabel}`}
       title={<>The Machine That Can <em>Answer Anything</em></>}
-      deck="Responsibility, Artificial Intelligence, and the Future Cyber Defender"
-      meta={["Dispatch 02", "14 min read", "AI & Ethics"]}
+      deck={article.deck}
+      meta={[`Dispatch ${String(article.edition).padStart(2, "0")}`, article.readTime, article.subject]}
       sections={sections}
-      pdfHref="/articles/pdfs/the-machine-that-can-answer-anything.pdf"
+      pdfHref={article.pdfHref}
     >
           <p className="article-lede">Imagine that you are working in a security operations center late at night. A warning flashes across the screen. An employee’s account has downloaded thousands of files at an unusual hour.</p>
           <p>You ask an artificial intelligence system to investigate.</p>

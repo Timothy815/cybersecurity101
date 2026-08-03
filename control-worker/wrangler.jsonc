@@ -1,0 +1,19 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "cybersecurity101-control",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-03",
+  "vars": {
+    "CONTROL_ORIGIN": "https://timothy815.github.io",
+    "CONTROL_RETURN_URL": "https://timothy815.github.io/cybersecurity101/control/",
+    "REPOSITORY": "Timothy815/cybersecurity101",
+    "BRANCH": "main",
+    "ALLOWED_GITHUB_USER_ID": "22419708"
+  },
+  "kv_namespaces": [
+    {
+      "binding": "SESSIONS",
+      "id": "REPLACE_WITH_KV_NAMESPACE_ID"
+    }
+  ]
+}

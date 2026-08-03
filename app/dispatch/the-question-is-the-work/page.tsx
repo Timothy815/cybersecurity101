@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { ArticleShell } from "../../ui/article-shell";
+import { getArticle } from "../../lib/articles";
+
+const article = getArticle("the-question-is-the-work");
 
 export const metadata: Metadata = {
   title: "The Question Is the Work | Cybersecurity Classroom Hub",
@@ -21,14 +25,15 @@ const sections = [
 ] satisfies [string, string][];
 
 export default function TheQuestionIsTheWork() {
+  if (!article.visible) notFound();
   return (
     <ArticleShell
-      eyebrow="Dispatch 01 // August 13, 2026"
+      eyebrow={`Dispatch ${String(article.edition).padStart(2, "0")} // ${article.publishedLabel}`}
       title={<>The Question Is <em>the Work</em></>}
-      deck="Curiosity, Academic Honesty, and Learning Beside Artificial Intelligence"
-      meta={["Dispatch 01", "18 min read", "AI & Learning"]}
+      deck={article.deck}
+      meta={[`Dispatch ${String(article.edition).padStart(2, "0")}`, article.readTime, article.subject]}
       sections={sections}
-      pdfHref="/articles/pdfs/the-question-is-the-work.pdf"
+      pdfHref={article.pdfHref}
     >
       <p className="article-lede">Imagine being given a machine that can answer almost any question you can think to ask. It can explain why the sky changes color at sunset, help you debug a Python program, compare encryption methods, suggest a stronger thesis statement, and walk you through subnetting as many times as necessary. It does not become impatient when you forget something. It does not sigh when you ask for a simpler explanation. It does not look around the room to see whether anyone else thinks your question is foolish.</p>
       <p>For a student, such a machine can feel almost miraculous. It can also make school feel strangely unnecessary. Why wrestle with a difficult problem when an answer can appear in seconds? Why spend an evening writing something that a machine can produce before the next song finishes playing? Why memorize information that can be retrieved almost instantly?</p>

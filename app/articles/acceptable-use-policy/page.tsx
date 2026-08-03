@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { ArticleShell } from "../../ui/article-shell";
+import { getArticle } from "../../lib/articles";
+
+const article = getArticle("acceptable-use-policy");
 
 export const metadata: Metadata = {
   title: "Acceptable Use Policy | Cybersecurity Classroom Hub",
@@ -18,12 +21,12 @@ const sections = [
 export default function AcceptableUsePolicy() {
   return (
     <ArticleShell
-      eyebrow="Course policy // August 3, 2026"
+      eyebrow={`Course policy // ${article.publishedLabel}`}
       title={<>Acceptable Use <em>Policy</em></>}
-      deck="Kankakee Area Career Center Cyber Security and Penetration Testing Program"
-      meta={["Policy & Ethics", "4 min read", "Permanent reference"]}
+      deck={article.deck}
+      meta={[article.subject, article.readTime, "Permanent reference"]}
       sections={sections}
-      pdfHref="/articles/pdfs/acceptable-use-policy.pdf"
+      pdfHref={article.pdfHref}
     >
       <h2 id="introduction">Introduction</h2>
       <p className="article-lede">The Cyber Security and Penetration Testing course at Kankakee Area Career Center is designed to provide students with valuable skills in networking, cybersecurity, ethical hacking, and penetration testing.</p>

@@ -10,12 +10,13 @@ function Logo() {
 
 export function ArticleArchive() {
   const [subject, setSubject] = useState("All");
-  const [sort, setSort] = useState<"date" | "subject">("date");
+  const [sort, setSort] = useState<"curated" | "date" | "subject">("curated");
   const subjects = ["All", ...new Set(articles.map(article => article.subject))];
   const visibleArticles = useMemo(() => {
     const filtered = subject === "All" ? articles : articles.filter(article => article.subject === subject);
-    return [...filtered].sort((a, b) => sort === "date"
-      ? b.published.localeCompare(a.published)
+    return [...filtered].sort((a, b) => sort === "curated"
+      ? a.order - b.order
+      : sort === "date" ? b.published.localeCompare(a.published)
       : a.subject.localeCompare(b.subject) || b.published.localeCompare(a.published));
   }, [subject, sort]);
 
@@ -36,10 +37,10 @@ export function ArticleArchive() {
       <section className="archive-shell">
         <div className="archive-toolbar">
           <div><span>Filter by subject</span><div className="filters">{subjects.map(item => <button key={item} className={subject === item ? "active" : ""} aria-pressed={subject === item} onClick={() => setSubject(item)}>{item}</button>)}</div></div>
-          <label>Sort articles<select value={sort} onChange={event => setSort(event.target.value as "date" | "subject")}><option value="date">Publication date</option><option value="subject">Subject</option></select></label>
+          <label>Sort articles<select value={sort} onChange={event => setSort(event.target.value as "curated" | "date" | "subject")}><option value="curated">Publication order</option><option value="date">Publication date</option><option value="subject">Subject</option></select></label>
         </div>
 
-        <div className="archive-count"><span>{String(visibleArticles.length).padStart(2, "0")} articles</span><span>{sort === "date" ? "Newest first" : "Grouped by subject"}</span></div>
+        <div className="archive-count"><span>{String(visibleArticles.length).padStart(2, "0")} articles</span><span>{sort === "curated" ? "Curated order" : sort === "date" ? "Newest first" : "Grouped by subject"}</span></div>
         <div className="archive-grid">
           {visibleArticles.map((article, index) => (
             <article key={article.slug} className={article.permanent ? "permanent" : ""}>

@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { ArticleShell } from "../../ui/article-shell";
+import { getArticle } from "../../lib/articles";
+
+const article = getArticle("to-learn-it-teach-it");
 
 export const metadata: Metadata = {
   title: "To Learn It, Teach It | Cybersecurity Classroom Hub",
@@ -18,14 +22,15 @@ const sections = [
 ] satisfies [string, string][];
 
 export default function FourthDispatch() {
+  if (!article.visible) notFound();
   return (
     <ArticleShell
-      eyebrow="Dispatch 04 // August 16, 2026"
+      eyebrow={`Dispatch ${String(article.edition).padStart(2, "0")} // ${article.publishedLabel}`}
       title={<>To Learn It, <em>Teach It</em></>}
-      deck="Using Explanation, Retrieval, and the Feynman Technique to Build Real Understanding"
-      meta={["Dispatch 04", "8 min read", "Learning Strategies"]}
+      deck={article.deck}
+      meta={[`Dispatch ${String(article.edition).padStart(2, "0")}`, article.readTime, article.subject]}
       sections={sections}
-      pdfHref="/articles/pdfs/to-learn-it-teach-it.pdf"
+      pdfHref={article.pdfHref}
     >
       <p className="article-lede">Have you ever read a page, reached the bottom, and realized that you could not explain what you just read? The words looked familiar while they were in front of you. The sentences seemed to make sense. You may even have felt confident that you understood them. Yet, when the page was closed, the idea seemed to disappear.</p>
       <p>This happens because recognizing information is not the same as understanding it. When the answer is visible, it is easy to mistake familiarity for knowledge. The real test comes when the book is closed, the notes are put away, and someone asks, “What does this mean?”</p>
