@@ -26,6 +26,7 @@
     "readTime": "14 min read",
     "href": "/dispatch/the-machine-that-can-answer-anything",
     "pdfHref": "/articles/pdfs/the-machine-that-can-answer-anything.pdf",
+    "slidesHref": "/articles/slides/the-machine-that-can-answer-anything-slides.pdf",
     "edition": 2,
     "visible": true,
     "order": 1
@@ -41,6 +42,7 @@
     "readTime": "9 min read",
     "href": "/dispatch/the-human-side-of-cybersecurity",
     "pdfHref": "/articles/pdfs/the-human-side-of-cybersecurity.pdf",
+    "slidesHref": "/articles/slides/the-human-side-of-cybersecurity-slides.pdf",
     "edition": 3,
     "visible": true,
     "order": 2
@@ -56,6 +58,7 @@
     "readTime": "8 min read",
     "href": "/dispatch/to-learn-it-teach-it",
     "pdfHref": "/articles/pdfs/to-learn-it-teach-it.pdf",
+    "slidesHref": "/articles/slides/to-learn-it-teach-it-slides.pdf",
     "edition": 4,
     "visible": true,
     "order": 3
@@ -86,6 +89,7 @@
     "readTime": "4 min read",
     "href": "/articles/acceptable-use-policy",
     "pdfHref": "/articles/pdfs/acceptable-use-policy.pdf",
+    "slidesHref": "/articles/slides/acceptable-use-policy-slides.pdf",
     "visible": true,
     "permanent": true,
     "order": 5

@@ -31,6 +31,7 @@ export default function SecondDispatch() {
       meta={[`Dispatch ${String(article.edition).padStart(2, "0")}`, article.readTime, article.subject]}
       sections={sections}
       pdfHref={article.pdfHref}
+      slidesHref={article.slidesHref}
     >
           <p className="article-lede">Imagine that you are working in a security operations center late at night. A warning flashes across the screen. An employee’s account has downloaded thousands of files at an unusual hour.</p>
           <p>You ask an artificial intelligence system to investigate.</p>

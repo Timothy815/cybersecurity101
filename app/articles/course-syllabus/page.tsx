@@ -28,6 +28,7 @@ export default function CourseSyllabus() {
       meta={[article.subject, article.readTime, "Permanent reference"]}
       sections={sections}
       pdfHref={article.pdfHref}
+      slidesHref={article.slidesHref}
     >
       <h2 id="description">Course Description</h2>
       <p className="article-lede">Welcome to Cybersecurity, a hands-on course focused on protecting computer systems, networks, applications, and information.</p>

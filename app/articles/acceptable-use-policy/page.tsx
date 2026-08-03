@@ -27,6 +27,7 @@ export default function AcceptableUsePolicy() {
       meta={[article.subject, article.readTime, "Permanent reference"]}
       sections={sections}
       pdfHref={article.pdfHref}
+      slidesHref={article.slidesHref}
     >
       <h2 id="introduction">Introduction</h2>
       <p className="article-lede">The Cyber Security and Penetration Testing course at Kankakee Area Career Center is designed to provide students with valuable skills in networking, cybersecurity, ethical hacking, and penetration testing.</p>
