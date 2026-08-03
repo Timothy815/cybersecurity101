@@ -9,16 +9,21 @@ function Logo() {
 }
 
 export function ArticleArchive() {
+  const [query, setQuery] = useState("");
   const [subject, setSubject] = useState("All");
   const [sort, setSort] = useState<"curated" | "date" | "subject">("curated");
   const subjects = ["All", ...new Set(articles.map(article => article.subject))];
   const visibleArticles = useMemo(() => {
-    const filtered = subject === "All" ? articles : articles.filter(article => article.subject === subject);
+    const titleQuery = query.trim().toLocaleLowerCase();
+    const filtered = articles.filter(article =>
+      (subject === "All" || article.subject === subject)
+      && (!titleQuery || article.title.toLocaleLowerCase().includes(titleQuery))
+    );
     return [...filtered].sort((a, b) => sort === "curated"
       ? a.order - b.order
       : sort === "date" ? b.published.localeCompare(a.published)
       : a.subject.localeCompare(b.subject) || b.published.localeCompare(a.published));
-  }, [subject, sort]);
+  }, [query, subject, sort]);
 
   return (
     <main className="archive-page" id="top">
@@ -37,6 +42,7 @@ export function ArticleArchive() {
       <section className="archive-shell">
         <div className="archive-toolbar">
           <div><span>Filter by subject</span><div className="filters">{subjects.map(item => <button key={item} className={subject === item ? "active" : ""} aria-pressed={subject === item} onClick={() => setSubject(item)}>{item}</button>)}</div></div>
+          <label className="archive-search">Search article titles<input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Try “social engineering”" /></label>
           <label>Sort articles<select value={sort} onChange={event => setSort(event.target.value as "curated" | "date" | "subject")}><option value="curated">Publication order</option><option value="date">Publication date</option><option value="subject">Subject</option></select></label>
         </div>
 
@@ -52,6 +58,7 @@ export function ArticleArchive() {
               <b aria-hidden="true">{String(index + 1).padStart(2, "0")}</b>
             </article>
           ))}
+          {!visibleArticles.length && <div className="archive-empty"><strong>No matching article titles.</strong><p>Try a shorter title or clear the subject filter.</p></div>}
         </div>
       </section>
 
