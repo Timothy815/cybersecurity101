@@ -20,7 +20,7 @@ const sections = [
 export default function SecondDispatch() {
   return (
     <ArticleShell
-      eyebrow="Dispatch 02 // August 3, 2026"
+      eyebrow="Dispatch 02 // August 14, 2026"
       title={<>The Machine That Can <em>Answer Anything</em></>}
       deck="Responsibility, Artificial Intelligence, and the Future Cyber Defender"
       meta={["Dispatch 02", "14 min read", "AI & Ethics"]}

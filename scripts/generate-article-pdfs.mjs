@@ -9,25 +9,32 @@ const temporaryDirectory = join(root, ".sites-runtime", "article-pdfs");
 
 const documents = [
   {
+    route: "dispatch/to-learn-it-teach-it",
+    filename: "to-learn-it-teach-it.pdf",
+    title: "To Learn It, Teach It",
+    subtitle: "Using Explanation, Retrieval, and the Feynman Technique to Build Real Understanding",
+    date: "August 16, 2026",
+  },
+  {
     route: "dispatch/the-human-side-of-cybersecurity",
     filename: "the-human-side-of-cybersecurity.pdf",
     title: "The Human Side of Cybersecurity",
     subtitle: "An Introduction to Social Engineering",
-    date: "August 3, 2026",
+    date: "August 15, 2026",
   },
   {
     route: "dispatch/the-question-is-the-work",
     filename: "the-question-is-the-work.pdf",
     title: "The Question Is the Work",
     subtitle: "Curiosity, Academic Honesty, and Learning Beside Artificial Intelligence",
-    date: "August 2, 2026",
+    date: "August 13, 2026",
   },
   {
     route: "dispatch/the-machine-that-can-answer-anything",
     filename: "the-machine-that-can-answer-anything.pdf",
     title: "The Machine That Can Answer Anything",
     subtitle: "Responsibility, Artificial Intelligence, and the Future Cyber Defender",
-    date: "August 3, 2026",
+    date: "August 14, 2026",
   },
   {
     route: "articles/course-syllabus",

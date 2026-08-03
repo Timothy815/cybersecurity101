@@ -23,7 +23,7 @@ const sections = [
 export default function TheQuestionIsTheWork() {
   return (
     <ArticleShell
-      eyebrow="Dispatch 01 // August 2, 2026"
+      eyebrow="Dispatch 01 // August 13, 2026"
       title={<>The Question Is <em>the Work</em></>}
       deck="Curiosity, Academic Honesty, and Learning Beside Artificial Intelligence"
       meta={["Dispatch 01", "18 min read", "AI & Learning"]}

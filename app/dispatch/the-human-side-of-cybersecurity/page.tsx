@@ -20,7 +20,7 @@ const sections = [
 export default function ThirdDispatch() {
   return (
     <ArticleShell
-      eyebrow="Dispatch 03 // August 3, 2026"
+      eyebrow="Dispatch 03 // August 15, 2026"
       title={<>The Human Side of <em>Cybersecurity</em></>}
       deck="An Introduction to Social Engineering"
       meta={["Dispatch 03", "9 min read", "Social Engineering"]}
