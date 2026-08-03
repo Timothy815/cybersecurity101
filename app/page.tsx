@@ -7,6 +7,10 @@ const currentDispatch = latestArticles[0];
 const currentDispatchPath = currentDispatch.href;
 
 const resources = [
+  ["CompTIA CertMaster Platform", "Sign in to access assigned CompTIA CertMaster coursework, labs, and certification-preparation materials.", "Course Platform", "https://platform.comptia.org/"],
+  ["CYBER.ORG", "Explore free cybersecurity curriculum, career resources, and learning programs designed for K–12 education.", "Curriculum", "https://cyber.org/"],
+  ["CYBER.ORG Range", "Launch authorized browser-based virtual labs in a safe, isolated cyber range environment.", "Virtual Lab", "https://cyber.org/range"],
+  ["CrypTool-Online", "Explore classic and modern cryptography through browser-based ciphers, cryptanalysis tools, and interactive demonstrations.", "Cryptography", "https://www.cryptool.org/en/cto/"],
   ["Mathematics of Cryptography", "Explore the mathematical foundations behind encryption, keys, and secure communication.", "Cryptography", "https://timothy815.github.io/Mathematics_of_Cryptography/index.html"],
   ["Modular Cryptography Workbench", "Experiment with modular arithmetic and the number systems that power modern cryptography.", "Interactive Lab", "https://timothy815.github.io/Modular_crypto_worksbench/"],
   ["Cipher Museum", "Investigate historical ciphers and the ideas that shaped the evolution of cryptography.", "Cryptography", "https://timothy815.github.io/cipher-museum/#/"],
