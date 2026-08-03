@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import articleSearchIndex from "../../content/article-search-index.json";
 import { articles } from "../lib/articles";
 
 function Logo() {
@@ -14,11 +15,14 @@ export function ArticleArchive() {
   const [sort, setSort] = useState<"curated" | "date" | "subject">("curated");
   const subjects = ["All", ...new Set(articles.map(article => article.subject))];
   const visibleArticles = useMemo(() => {
-    const titleQuery = query.trim().toLocaleLowerCase();
-    const filtered = articles.filter(article =>
-      (subject === "All" || article.subject === subject)
-      && (!titleQuery || article.title.toLocaleLowerCase().includes(titleQuery))
-    );
+    const searchTerms: string[] = query.toLocaleLowerCase().match(/[\p{L}\p{N}]+/gu) ?? [];
+    const filtered = articles.filter(article => {
+      if (subject !== "All" && article.subject !== subject) return false;
+      if (!searchTerms.length) return true;
+      const searchText = articleSearchIndex[article.slug as keyof typeof articleSearchIndex]?.toLocaleLowerCase() ?? "";
+      const words: string[] = searchText.match(/[\p{L}\p{N}]+/gu) ?? [];
+      return searchTerms.every(term => term.length <= 2 ? words.includes(term) : searchText.includes(term));
+    });
     return [...filtered].sort((a, b) => sort === "curated"
       ? a.order - b.order
       : sort === "date" ? b.published.localeCompare(a.published)
@@ -42,7 +46,7 @@ export function ArticleArchive() {
       <section className="archive-shell">
         <div className="archive-toolbar">
           <div><span>Filter by subject</span><div className="filters">{subjects.map(item => <button key={item} className={subject === item ? "active" : ""} aria-pressed={subject === item} onClick={() => setSubject(item)}>{item}</button>)}</div></div>
-          <label className="archive-search">Search article titles<input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Try “social engineering”" /></label>
+          <label className="archive-search">Search articles<input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Try “AI,” “learning,” or “phishing”" /></label>
           <label>Sort articles<select value={sort} onChange={event => setSort(event.target.value as "curated" | "date" | "subject")}><option value="curated">Publication order</option><option value="date">Publication date</option><option value="subject">Subject</option></select></label>
         </div>
 
@@ -58,7 +62,7 @@ export function ArticleArchive() {
               <b aria-hidden="true">{String(index + 1).padStart(2, "0")}</b>
             </article>
           ))}
-          {!visibleArticles.length && <div className="archive-empty"><strong>No matching article titles.</strong><p>Try a shorter title or clear the subject filter.</p></div>}
+          {!visibleArticles.length && <div className="archive-empty"><strong>No matching articles.</strong><p>Try another keyword or clear the subject filter.</p></div>}
         </div>
       </section>
 
