@@ -166,8 +166,8 @@ async function handle(request: Request, env: Env) {
       headers: { Accept: "application/json", "Content-Type": "application/json" },
       body: JSON.stringify({ client_id: env.GITHUB_CLIENT_ID, client_secret: env.GITHUB_CLIENT_SECRET, code, redirect_uri: `${url.origin}/auth/callback`, code_verifier: verifier }),
     });
-    const tokenData = await tokenResponse.json() as { access_token?: string; expires_in?: number; error_description?: string };
-    if (!tokenData.access_token) return json(env, { message: tokenData.error_description ?? "GitHub sign-in failed." }, 401);
+    const tokenData = await tokenResponse.json() as { access_token?: string; expires_in?: number; error?: string; error_description?: string; message?: string };
+    if (!tokenData.access_token) return json(env, { message: tokenData.error_description ?? tokenData.error ?? tokenData.message ?? "GitHub sign-in failed." }, 401);
     const userResponse = await fetch("https://api.github.com/user", { headers: githubHeaders(tokenData.access_token) });
     const user = await userResponse.json() as { id?: number; login?: string };
     if (!user.id || String(user.id) !== env.ALLOWED_GITHUB_USER_ID) return json(env, { message: "This GitHub account is not authorized to publish this site." }, 403);
