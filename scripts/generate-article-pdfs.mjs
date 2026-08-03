@@ -9,6 +9,13 @@ const temporaryDirectory = join(root, ".sites-runtime", "article-pdfs");
 
 const documents = [
   {
+    route: "dispatch/the-question-is-the-work",
+    filename: "the-question-is-the-work.pdf",
+    title: "The Question Is the Work",
+    subtitle: "Curiosity, Academic Honesty, and Learning Beside Artificial Intelligence",
+    date: "August 2, 2026",
+  },
+  {
     route: "dispatch/the-machine-that-can-answer-anything",
     filename: "the-machine-that-can-answer-anything.pdf",
     title: "The Machine That Can Answer Anything",

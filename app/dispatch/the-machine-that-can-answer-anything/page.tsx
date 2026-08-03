@@ -17,13 +17,13 @@ const sections = [
   ["questions", "Questions worth arguing about"],
  ] satisfies [string, string][];
 
-export default function FirstDispatch() {
+export default function SecondDispatch() {
   return (
     <ArticleShell
-      eyebrow="Dispatch 01 // August 3, 2026"
+      eyebrow="Dispatch 02 // August 3, 2026"
       title={<>The Machine That Can <em>Answer Anything</em></>}
       deck="Responsibility, Artificial Intelligence, and the Future Cyber Defender"
-      meta={["Opening dispatch", "14 min read", "AI & Ethics"]}
+      meta={["Dispatch 02", "14 min read", "AI & Ethics"]}
       sections={sections}
       pdfHref="/articles/pdfs/the-machine-that-can-answer-anything.pdf"
     >

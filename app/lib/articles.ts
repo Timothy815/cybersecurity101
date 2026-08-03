@@ -26,6 +26,18 @@ export const articles: ArticleRecord[] = [
     pdfHref: "/articles/pdfs/the-machine-that-can-answer-anything.pdf",
   },
   {
+    slug: "the-question-is-the-work",
+    title: "The Question Is the Work",
+    subtitle: "Curiosity, academic honesty, and learning beside artificial intelligence.",
+    published: "2026-08-02",
+    publishedLabel: "August 2, 2026",
+    subject: "AI & Learning",
+    kind: "Dispatch",
+    readTime: "18 min read",
+    href: "/dispatch/the-question-is-the-work",
+    pdfHref: "/articles/pdfs/the-question-is-the-work.pdf",
+  },
+  {
     slug: "course-syllabus",
     title: "Cybersecurity Course Syllabus",
     subtitle: "Course purpose, expectations, procedures, content, and pathways to success.",
