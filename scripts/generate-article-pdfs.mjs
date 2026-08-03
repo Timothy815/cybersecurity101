@@ -19,6 +19,7 @@ mkdirSync(temporaryDirectory, { recursive: true });
 rmSync(join(root, "out", "articles", "pdfs"), { recursive: true, force: true });
 
 for (const document of documents) {
+  console.log(`Generating ${document.filename} from ${document.route}`);
   const renderedPath = join(root, "out", document.route, "index.html");
   const rendered = readFileSync(renderedPath, "utf8");
   const match = rendered.match(/<article class="article-body">([\s\S]*?)<div class="article-end screen-only">/);
@@ -46,7 +47,10 @@ for (const document of documents) {
   ], { encoding: "utf8" });
 
   if (result.status !== 0) {
-    throw new Error(`PDF generation failed for ${document.title}:\n${result.stderr || result.stdout}`);
+    const details = (result.stderr || result.stdout || "Pandoc exited without diagnostic output").trim();
+    const annotation = details.replaceAll("%", "%25").replaceAll("\r", "%0D").replaceAll("\n", "%0A");
+    console.error(`::error title=PDF generation failed for ${document.title}::${annotation}`);
+    throw new Error(`PDF generation failed for ${document.title}:\n${details}`);
   }
   copyFileSync(publicPdfPath, outputPdfPath);
   console.log(`Generated ${document.filename}`);
