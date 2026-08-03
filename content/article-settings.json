@@ -26,7 +26,7 @@
     "href": "/dispatch/the-machine-that-can-answer-anything",
     "pdfHref": "/articles/pdfs/the-machine-that-can-answer-anything.pdf",
     "edition": 2,
-    "visible": false,
+    "visible": true,
     "order": 1
   },
   {
@@ -41,7 +41,7 @@
     "href": "/dispatch/the-human-side-of-cybersecurity",
     "pdfHref": "/articles/pdfs/the-human-side-of-cybersecurity.pdf",
     "edition": 3,
-    "visible": false,
+    "visible": true,
     "order": 2
   },
   {
@@ -56,7 +56,7 @@
     "href": "/dispatch/to-learn-it-teach-it",
     "pdfHref": "/articles/pdfs/to-learn-it-teach-it.pdf",
     "edition": 4,
-    "visible": false,
+    "visible": true,
     "order": 3
   },
   {
