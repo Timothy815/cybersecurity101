@@ -8,7 +8,7 @@ only a short-lived opaque session identifier stored in `sessionStorage`.
 
 1. Create a GitHub App owned by `Timothy815`.
    - Homepage URL: `https://timothy815.github.io/cybersecurity101/`
-   - Callback URL: `https://cybersecurity101-control.<your-workers-subdomain>.workers.dev/auth/callback`
+   - Callback URL: `https://cybersecurity101-control.timothy815.workers.dev/auth/callback`
    - User authorization callback: enabled
    - Repository permission: **Contents — Read and write**
    - Installation: only the `cybersecurity101` repository
@@ -25,7 +25,9 @@ only a short-lived opaque session identifier stored in `sessionStorage`.
    `npx wrangler deploy --config control-worker/wrangler.jsonc`
 6. In the GitHub repository, create an Actions variable named
    `CONTROL_API_URL` whose value is the deployed Worker origin, without a
-   trailing slash. Re-run the Pages workflow.
+   trailing slash. This site's value is
+   `https://cybersecurity101-control.timothy815.workers.dev`. Re-run the Pages
+   workflow.
 
 Until this setup is complete, `/control/` is a safe read-only shell and does
 not expose any publication credential.
