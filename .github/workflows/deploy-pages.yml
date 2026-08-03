@@ -34,7 +34,7 @@ jobs:
         run: npm ci
 
       - name: Install PDF toolchain
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y pandoc texlive-xetex texlive-fonts-recommended fonts-dejavu-core
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y pandoc texlive-xetex texlive-fonts-recommended fonts-dejavu-core lmodern
 
       - name: Build static site
         run: npm run build:pages
