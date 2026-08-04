@@ -15,6 +15,7 @@ const resources = [
   ["Mathematics of Cryptography", "Explore the mathematical foundations behind encryption, keys, and secure communication.", "Cryptography", "https://timothy815.github.io/Mathematics_of_Cryptography/index.html"],
   ["Modular Cryptography Workbench", "Experiment with modular arithmetic and the number systems that power modern cryptography.", "Interactive Lab", "https://timothy815.github.io/Modular_crypto_worksbench/"],
   ["Cipher Museum", "Investigate historical ciphers and the ideas that shaped the evolution of cryptography.", "Cryptography", "https://timothy815.github.io/cipher-museum/#/"],
+  ["JupyterLab", "Launch a browser-based notebook environment for writing Python, testing ideas, documenting code, and exploring data.", "Programming Lab", "https://jupyter.org/try-jupyter/lab/"],
 ];
 const terms = [
   ["Academic honesty", "Accurately representing what you know, created, and contributed when submitting academic work.", "Ethics & learning"],
