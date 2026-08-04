@@ -54,9 +54,21 @@ published: 2026-08-17
               <tr><td>Quotation</td><td><code>&gt; Quoted or emphasized passage</code></td></tr>
               <tr><td>Bullet list</td><td><code>- First item</code></td></tr>
               <tr><td>Numbered list</td><td><code>1. First item</code></td></tr>
+              <tr><td>New paragraph</td><td><code>Leave one completely blank line</code></td></tr>
+              <tr><td>Line break</td><td><code>{"End the line with \\"}</code></td></tr>
             </tbody>
           </table>
           <p className="guide-note">Leave a blank line between paragraphs, headings, lists, images, and quotations. This makes the source easier to edit and prevents formatting surprises.</p>
+          <h3>Paragraphs and line breaks</h3>
+          <p>Pressing Return once in the source does not normally begin a new paragraph; Markdown treats the text as part of the same paragraph and allows the browser to wrap it naturally.</p>
+          <p>For a new paragraph, leave a completely blank line:</p>
+          <pre className="guide-example">{`This is the first paragraph.
+
+This is the second paragraph.`}</pre>
+          <p>For a deliberate line break without the extra spacing of a new paragraph, end the first line with a backslash:</p>
+          <pre className="guide-example">{`First line\\
+Second line`}</pre>
+          <p className="guide-note">Two spaces at the end of a line also create a Markdown line break, but the backslash is recommended because trailing spaces are invisible and editors may remove them automatically.</p>
         </section>
 
         <section className="guide-section">
