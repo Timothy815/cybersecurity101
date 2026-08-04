@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./markdown-content.css";
 
 const basePath = process.env.PAGES_BASE_PATH ?? "";
 

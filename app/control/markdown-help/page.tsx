@@ -96,7 +96,25 @@ Second line`}</pre>
         </section>
 
         <section className="guide-section">
-          <p className="label">05 // Discussion questions</p>
+          <p className="label">05 // Footnotes and captions</p>
+          <h2>Add small supporting text.</h2>
+          <p>Markdown does not provide a general command for making arbitrary text tiny. The site supports two more readable uses of small text: source-style footnotes and image captions.</p>
+          <h3>Footnotes</h3>
+          <p>Place a footnote reference immediately after the relevant sentence. Define the note elsewhere in the article using the same label. The published article numbers the notes automatically and collects them in small text at the bottom.</p>
+          <pre className="guide-example">{`The CIA triad is a foundational information-security model.[^cia]
+
+[^cia]: CIA refers to confidentiality, integrity, and availability—not the intelligence agency.`}</pre>
+          <p className="guide-note">Labels such as <code>cia</code>, <code>source1</code>, or <code>nist</code> help you organize the Markdown. Readers see automatic numbers rather than those labels.</p>
+          <h3>Image captions</h3>
+          <p>Place a fully italicized line directly after an image, separated by a blank line. The site recognizes that pattern and displays the line as a small centered caption.</p>
+          <pre className="guide-example">{`![Diagram of the CIA triad](${publishedRoot}/articles/images/cia-triad-diagram.jpg)
+
+*Figure 1. The CIA triad organizes three essential security objectives.*`}</pre>
+          <p className="guide-note">Alternative text describes the image for someone who cannot see it. A caption supplies context for every reader. They serve different purposes, so include both when a caption is useful.</p>
+        </section>
+
+        <section className="guide-section">
+          <p className="label">06 // Discussion questions</p>
           <h2>Keep every question separate.</h2>
           <p>Every editor-created article must end with the exact section heading below. Each question needs its own numbered line and must end with a question mark.</p>
           <pre className="guide-example">{`## Questions for Discussion
@@ -109,7 +127,7 @@ Second line`}</pre>
         </section>
 
         <section className="guide-section">
-          <p className="label">06 // Safety boundaries</p>
+          <p className="label">07 // Safety boundaries</p>
           <h2>What the renderer will reject.</h2>
           <p>For student safety and site security, article Markdown cannot run scripts or embed arbitrary webpages. Script, iframe, object, and embed elements are rejected. Raw HTML is not needed for supported formatting.</p>
           <p className="guide-note">Preview the complete article, test every link, confirm image alternative text, and then select <strong>Save article changes</strong>. Nothing becomes public until you separately select <strong>Publish changes</strong>.</p>

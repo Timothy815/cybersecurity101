@@ -28,11 +28,17 @@ export function MarkdownArticle({ markdown }: { markdown: string }) {
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
       components={{
-        h2: ({ children }) => <h2 id={headingId(children)}>{children}</h2>,
+        p: ({ node, children }) => {
+          const onlyChild = node?.children.length === 1 ? node.children[0] : undefined;
+          return onlyChild?.type === "element" && onlyChild.tagName === "img" ? <>{children}</> : <p>{children}</p>;
+        },
+        h2: ({ children, id, className }) => <h2 id={id ?? headingId(children)} className={className}>{children}</h2>,
         h3: ({ children }) => <h3>{children}</h3>,
-        a: ({ href, children }) => {
+        a: ({ node: _node, href, children, ...props }) => {
+          void _node;
+          if (href?.startsWith("#")) return <a {...props} href={href}>{children}</a>;
           const safeHref = href?.startsWith("https://") || href?.startsWith("http://") ? href : undefined;
-          return safeHref ? <a href={safeHref} target="_blank" rel="noreferrer">{children}</a> : <span>{children}</span>;
+          return safeHref ? <a {...props} href={safeHref} target="_blank" rel="noreferrer">{children}</a> : <span>{children}</span>;
         },
         img: ({ src, alt }) => {
           const safeSrc = typeof src === "string" && (src.startsWith("https://") || src.startsWith("http://")) ? src : undefined;
