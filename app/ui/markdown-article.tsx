@@ -34,6 +34,16 @@ export function MarkdownArticle({ markdown }: { markdown: string }) {
           const safeHref = href?.startsWith("https://") || href?.startsWith("http://") ? href : undefined;
           return safeHref ? <a href={safeHref} target="_blank" rel="noreferrer">{children}</a> : <span>{children}</span>;
         },
+        img: ({ src, alt }) => {
+          const safeSrc = typeof src === "string" && (src.startsWith("https://") || src.startsWith("http://")) ? src : undefined;
+          return safeSrc ? (
+            <figure className="article-image">
+              {/* Article authors supply arbitrary remote images, so Next/Image cannot know their dimensions. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={safeSrc} alt={alt ?? ""} loading="lazy" />
+            </figure>
+          ) : null;
+        },
       }}
     >
       {markdown}
