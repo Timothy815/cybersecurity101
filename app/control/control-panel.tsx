@@ -90,6 +90,7 @@ export function ControlPanel({ initialArticles, apiUrl }: { initialArticles: Art
   const [showPrompt, setShowPrompt] = useState(false);
   const [showCreator, setShowCreator] = useState(false);
   const [editingSlug, setEditingSlug] = useState<string | null>(null);
+  const [previewingSlug, setPreviewingSlug] = useState<string | null>(null);
   const prompt = aiPrompt();
 
   const loadCatalog = useCallback(async (token: string) => {
@@ -106,6 +107,7 @@ export function ControlPanel({ initialArticles, apiUrl }: { initialArticles: Art
       setStatus(error instanceof Error ? error.message : "Unable to load the catalog.");
       sessionStorage.removeItem("control_session");
       setSession("");
+      setPreviewingSlug(null);
     } finally { setBusy(false); }
   }, [apiUrl]);
 
@@ -159,7 +161,7 @@ export function ControlPanel({ initialArticles, apiUrl }: { initialArticles: Art
 
   async function signOut() {
     if (session && apiUrl) await fetch(`${apiUrl}/api/logout`, { method: "POST", headers: { Authorization: `Bearer ${session}` } }).catch(() => undefined);
-    sessionStorage.removeItem("control_session"); setSession(""); setUser(""); setStatus("Signed out.");
+    sessionStorage.removeItem("control_session"); setSession(""); setUser(""); setPreviewingSlug(null); setStatus("Signed out.");
   }
 
   function importDraft(value = importText) {
@@ -168,6 +170,7 @@ export function ControlPanel({ initialArticles, apiUrl }: { initialArticles: Art
   }
 
   function beginNewArticle() {
+    setPreviewingSlug(null);
     setEditingSlug(null);
     setDraft({ ...blankDraft, published: nextDate(articles) });
     setShowCreator(true);
@@ -176,6 +179,7 @@ export function ControlPanel({ initialArticles, apiUrl }: { initialArticles: Art
 
   function editArticle(article: EditableArticle) {
     if (!article.bodyMarkdown) return;
+    setPreviewingSlug(null);
     setEditingSlug(article.slug);
     setDraft({ title: article.title, subtitle: article.subtitle, subject: article.subject, readTime: article.readTime, published: article.published, markdown: article.bodyMarkdown });
     setShowCreator(true);
@@ -186,6 +190,15 @@ export function ControlPanel({ initialArticles, apiUrl }: { initialArticles: Art
   function closeEditor() {
     setShowCreator(false);
     setEditingSlug(null);
+  }
+
+  function previewArticle(article: EditableArticle) {
+    if (!article.bodyMarkdown) return;
+    setShowCreator(false);
+    setEditingSlug(null);
+    setPreviewingSlug(article.slug);
+    setStatus(`Previewing “${article.title}.” This does not change what students can see.`);
+    window.requestAnimationFrame(() => document.getElementById("article-review")?.scrollIntoView({ behavior: "smooth", block: "start" }));
   }
 
   function saveDraft() {
@@ -215,7 +228,10 @@ export function ControlPanel({ initialArticles, apiUrl }: { initialArticles: Art
     setStatus("Article added as an unpublished catalog change. Preview the list, then select Publish changes.");
   }
 
-  const preview = splitDiscussion(draft.markdown);
+  const draftPreview = splitDiscussion(draft.markdown);
+  const previewingArticle = articles.find(article => article.slug === previewingSlug && article.bodyMarkdown);
+  const articlePreview = splitDiscussion(previewingArticle?.bodyMarkdown ?? "");
+  const previewDate = previewingArticle ? new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(`${previewingArticle.published}T00:00:00Z`)) : "";
 
   return (
     <main className="control-page">
@@ -226,14 +242,16 @@ export function ControlPanel({ initialArticles, apiUrl }: { initialArticles: Art
 
       <section className="control-workspace">
         <div className="control-heading"><div><p className="label">01 // Publication queue</p><h2>Visibility, dates,<br/><em>and issue order.</em></h2></div><button className="dark-button" onClick={save} disabled={!session || busy}>Publish changes →</button></div>
-        <div className="control-list">{articles.map((article, index) => <article key={article.slug} className={article.visible ? "" : "is-hidden"}><div className="control-order"><button onClick={() => move(index,-1)} disabled={!session || index===0} aria-label={`Move ${article.title} up`}>↑</button><b>{String(index+1).padStart(2,"0")}</b><button onClick={() => move(index,1)} disabled={!session || index===articles.length-1} aria-label={`Move ${article.title} down`}>↓</button></div><div className="control-record"><span>{article.kind}{article.edition ? ` // Dispatch ${String(article.edition).padStart(2,"0")}` : ""}</span><h3>{article.title}</h3><p>{article.subject}{article.slidesHref ? " // Slides attached" : ""}</p>{article.bodyMarkdown && <button className="control-edit" onClick={() => editArticle(article)} disabled={!session}>Edit article</button>}</div><label className="control-date">Publication date<input type="date" value={article.published} disabled={!session} onChange={event => update(article.slug,{published:event.target.value})}/></label><label className="control-toggle"><input type="checkbox" checked={article.visible} disabled={!session || article.permanent} onChange={event => update(article.slug,{visible:event.target.checked})}/><span>{article.visible ? "Shown" : "Hidden"}</span></label></article>)}</div>
+        <div className="control-list">{articles.map((article, index) => <article key={article.slug} className={article.visible ? "" : "is-hidden"}><div className="control-order"><button onClick={() => move(index,-1)} disabled={!session || index===0} aria-label={`Move ${article.title} up`}>↑</button><b>{String(index+1).padStart(2,"0")}</b><button onClick={() => move(index,1)} disabled={!session || index===articles.length-1} aria-label={`Move ${article.title} down`}>↓</button></div><div className="control-record"><span>{article.kind}{article.edition ? ` // Dispatch ${String(article.edition).padStart(2,"0")}` : ""}</span><h3>{article.title}</h3><p>{article.subject}{article.slidesHref ? " // Slides attached" : ""}</p>{article.bodyMarkdown && <div className="control-record-actions"><button className="control-edit" onClick={() => previewArticle(article)} disabled={!session}>Preview article</button><button className="control-edit" onClick={() => editArticle(article)} disabled={!session}>Edit article</button></div>}</div><label className="control-date">Publication date<input type="date" value={article.published} disabled={!session} onChange={event => update(article.slug,{published:event.target.value})}/></label><label className="control-toggle"><input type="checkbox" checked={article.visible} disabled={!session || article.permanent} onChange={event => update(article.slug,{visible:event.target.checked})}/><span>{article.visible ? "Shown" : "Hidden"}</span></label></article>)}</div>
+
+        {previewingArticle?.bodyMarkdown && <section className="control-editor control-review" id="article-review"><div className="control-heading"><div><p className="label">Control-only review</p><h2>Preview without<br/><em>publishing.</em></h2></div><div className="control-review-actions"><button onClick={() => editArticle(previewingArticle)}>Edit this article</button><button onClick={() => setPreviewingSlug(null)}>Close preview</button></div></div><div className="control-review-notice"><strong>{previewingArticle.visible ? "Currently shown" : "Hidden from students"}</strong><span>This preview does not change the article’s publication setting.</span></div><div className="control-preview"><p className="label">Dispatch {String(previewingArticle.edition ?? 0).padStart(2,"0")}{" // "}{previewDate}</p><h1>{previewingArticle.title}</h1><p className="article-deck">{previewingArticle.deck}</p><div className="article-meta"><span>Dispatch {String(previewingArticle.edition ?? 0).padStart(2,"0")}</span><span>{previewingArticle.readTime}</span><span>{previewingArticle.subject}</span></div><article className="article-body"><MarkdownArticle markdown={articlePreview.body}/>{articlePreview.discussion && <section className="discussion"><p className="label">Class discussion</p><h2>Questions for Discussion</h2><MarkdownArticle markdown={articlePreview.discussion}/></section>}</article></div></section>}
 
         <div className="control-tools">
           <section><p className="label">02 // AI prompt builder</p><h2>Draft with AI.<br/><em>Keep human approval.</em></h2><p>Copy a provider-neutral prompt into ChatGPT or Gemini. It produces a structured draft that this control panel can validate and preview.</p><button onClick={() => setShowPrompt(value => !value)}>{showPrompt ? "Hide prompt" : "Create article prompt"}</button>{showPrompt && <><textarea className="prompt-output" readOnly value={prompt}/><button onClick={() => navigator.clipboard.writeText(prompt).then(()=>setStatus("AI article prompt copied to the clipboard."))}>Copy prompt</button></>}</section>
           <section><p className="label">03 // Import draft</p><h2>Paste or upload<br/><em>the result.</em></h2><p>AI output remains a draft until you inspect it and deliberately publish the catalog.</p><textarea value={importText} onChange={event=>setImportText(event.target.value)} placeholder="Paste the complete Markdown response here…"/><div className="control-inline"><label className="file-button">Upload .md<input type="file" accept=".md,text/markdown,text/plain" onChange={event=>{const file=event.target.files?.[0]; if(file) file.text().then(value=>{setImportText(value); importDraft(value);});}}/></label><button onClick={()=>importDraft()} disabled={!importText.trim()}>Import and review</button><button onClick={beginNewArticle}>Write manually</button><Link className="file-button" href="/control/markdown-help">Markdown guide →</Link></div></section>
         </div>
 
-        {showCreator && <section className="control-editor" id="article-editor"><div className="control-heading"><div><p className="label">{editingSlug ? "Article editor" : "Draft editor"}</p><h2>{editingSlug ? <>Revise and<br/><em>republish.</em></> : <>Review before<br/><em>adding.</em></>}</h2></div><button onClick={closeEditor}>Close editor</button></div><div className="editor-fields"><label>Title<input value={draft.title} onChange={e=>setDraft({...draft,title:e.target.value})}/></label><label>Subtitle<input value={draft.subtitle} onChange={e=>setDraft({...draft,subtitle:e.target.value})}/></label><label>Subject<input value={draft.subject} onChange={e=>setDraft({...draft,subject:e.target.value})}/></label><label>Read time<input value={draft.readTime} onChange={e=>setDraft({...draft,readTime:e.target.value})}/></label><label>Publication date<input type="date" value={draft.published} onChange={e=>setDraft({...draft,published:e.target.value})}/></label></div><label className="editor-body">Article Markdown<textarea value={draft.markdown} onChange={e=>setDraft({...draft,markdown:e.target.value})}/></label><button className="dark-button" onClick={saveDraft} disabled={!session}>{editingSlug ? "Save article changes →" : "Add article to publication queue →"}</button>{draft.markdown && <div className="control-preview"><p className="label">Article preview</p><h1>{draft.title || "Untitled draft"}</h1><p className="article-deck">{draft.subtitle}</p><article className="article-body"><MarkdownArticle markdown={preview.body}/>{preview.discussion && <section className="discussion"><p className="label">Class discussion</p><h2>Questions for Discussion</h2><MarkdownArticle markdown={preview.discussion}/></section>}</article></div>}</section>}
+        {showCreator && <section className="control-editor" id="article-editor"><div className="control-heading"><div><p className="label">{editingSlug ? "Article editor" : "Draft editor"}</p><h2>{editingSlug ? <>Revise and<br/><em>republish.</em></> : <>Review before<br/><em>adding.</em></>}</h2></div><button onClick={closeEditor}>Close editor</button></div><div className="editor-fields"><label>Title<input value={draft.title} onChange={e=>setDraft({...draft,title:e.target.value})}/></label><label>Subtitle<input value={draft.subtitle} onChange={e=>setDraft({...draft,subtitle:e.target.value})}/></label><label>Subject<input value={draft.subject} onChange={e=>setDraft({...draft,subject:e.target.value})}/></label><label>Read time<input value={draft.readTime} onChange={e=>setDraft({...draft,readTime:e.target.value})}/></label><label>Publication date<input type="date" value={draft.published} onChange={e=>setDraft({...draft,published:e.target.value})}/></label></div><label className="editor-body">Article Markdown<textarea value={draft.markdown} onChange={e=>setDraft({...draft,markdown:e.target.value})}/></label><button className="dark-button" onClick={saveDraft} disabled={!session}>{editingSlug ? "Save article changes →" : "Add article to publication queue →"}</button>{draft.markdown && <div className="control-preview"><p className="label">Article preview</p><h1>{draft.title || "Untitled draft"}</h1><p className="article-deck">{draft.subtitle}</p><article className="article-body"><MarkdownArticle markdown={draftPreview.body}/>{draftPreview.discussion && <section className="discussion"><p className="label">Class discussion</p><h2>Questions for Discussion</h2><MarkdownArticle markdown={draftPreview.discussion}/></section>}</article></div>}</section>}
       </section>
     </main>
   );
