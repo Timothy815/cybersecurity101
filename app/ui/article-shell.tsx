@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { ArticleReaderLayout } from "./article-reader-layout";
 
 type ArticleShellProps = {
   eyebrow: string;
@@ -39,18 +40,9 @@ export function ArticleShell({ eyebrow, title, deck, meta, sections, pdfHref, sl
         </div>
       </section>
 
-      <div className="article-layout">
-        <aside className="article-contents screen-only" aria-label="Article contents">
-          <p>In this article</p>
-          <nav>{sections.map(([id, sectionTitle], index) => <a href={`#${id}`} key={id}><span>{String(index + 1).padStart(2, "0")}</span>{sectionTitle}</a>)}</nav>
-          <Link className="contents-download" href={pdfHref} download>PDF edition ↓</Link>
-          {slidesHref && <Link className="contents-download" href={slidesHref} target="_blank" rel="noreferrer">Slide deck ↗</Link>}
-        </aside>
-        <article className="article-body">
-          {children}
-          <div className="article-end screen-only"><span>End // Article archive</span><Link href="/articles">Browse past issues →</Link></div>
-        </article>
-      </div>
+      <ArticleReaderLayout sections={sections} pdfHref={pdfHref} slidesHref={slidesHref}>
+        {children}
+      </ArticleReaderLayout>
 
       <footer className="screen-only">
         <Link className="brand" href="/"><Logo/><span><strong>CYBER / CLASSROOM</strong><small>Learn · Defend · Grow</small></span></Link>
